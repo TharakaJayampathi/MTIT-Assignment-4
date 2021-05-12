@@ -1,4 +1,4 @@
-package com.sliit.mtit62.microservice.userservice;
+package com.sliit.mtit62.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

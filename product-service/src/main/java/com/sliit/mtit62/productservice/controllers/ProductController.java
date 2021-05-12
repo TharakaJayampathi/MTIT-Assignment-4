@@ -25,6 +25,17 @@ public class ProductController {
         return productsRepository.findAll();
     }
 
+    @GetMapping(value = "/{id}")
+    public @ResponseBody
+    Object productReq(@PathVariable Integer id) {
+        if(productsRepository.existsById(id)){
+            return productsRepository.findById(id);
+        }else{
+            return "Product does not exists in the database.";
+        }
+
+    }
+
     @DeleteMapping(value = "/{id}")
     public  @ResponseBody  String deleteProduct(@PathVariable Integer id) {
         if (productsRepository.existsById(id)) {
@@ -35,7 +46,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping(value = "/")
+    @PostMapping(value = "/updateProduct")
     public String update(@RequestBody Products Products) {
         if (productsRepository.existsById(Products.getId())) {
             try {

@@ -1,4 +1,4 @@
-package com.sliit.mtit62.microservice.userservice;
+package com.sliit.mtit62.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
