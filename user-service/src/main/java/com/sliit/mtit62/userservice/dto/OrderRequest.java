@@ -1,31 +1,11 @@
-package com.sliit.mtit62.orderservice.models;
+package com.sliit.mtit62.userservice.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class Orders {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class OrderRequest {
     private Integer Id;
     private Integer ProductId;
     private Integer UserId;
     private Integer Quantity;
     private Float TotalPrice;
-
-    public Orders(){}
-
-    public Orders(Integer id, Integer productId, Integer userId, Integer quantity, Float totalPrice) {
-        Id = id;
-        ProductId = productId;
-        UserId = userId;
-        Quantity = quantity;
-        TotalPrice = totalPrice;
-    }
 
     public Integer getId() {
         return Id;
@@ -66,10 +46,4 @@ public class Orders {
     public void setTotalPrice(Float totalPrice) {
         TotalPrice = totalPrice;
     }
-
-    @Override
-    public String toString() {
-        return "id = " + this.UserId;
-    }
-
 }

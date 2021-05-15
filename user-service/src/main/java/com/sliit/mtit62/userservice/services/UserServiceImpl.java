@@ -55,5 +55,12 @@ public class UserServiceImpl {
         return "Product Deleted, Product Id: " + id;
     }
 
+    public HttpEntity<String> getOrdersByUsersId(Integer id){
+        Map<String, Integer> params = new HashMap<>();
+        params.put("id", id);
+        ResponseEntity<String> productCreationResponse = restTemplate.getForEntity("http://localhost:8081/api/products/{id}", String.class, params);
+        return productCreationResponse;
+    }
+
 
 }

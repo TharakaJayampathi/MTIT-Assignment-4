@@ -15,6 +15,17 @@ public class Products {
     private Float Price;
     private String Description;
 
+    public  Products(){
+
+    }
+
+    public Products(int id, String name, float price, String description) {
+        this.Id = id;
+        this.Name = name;
+        this.Price = price;
+        this.Description = description;
+    }
+
     public Integer getId() {
         return Id;
     }

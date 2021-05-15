@@ -3,12 +3,18 @@ package com.sliit.mtit62.productservice.controllers;
 import com.sliit.mtit62.productservice.persistence.ProductsRepository;
 import com.sliit.mtit62.productservice.models.Products;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/products",produces = "application/json")
 public class ProductController {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
      @Autowired
      private ProductsRepository productsRepository;
@@ -28,8 +34,16 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public @ResponseBody
     Object productReq(@PathVariable Integer id) {
+
+        List<Products> products = jdbcTemplate.query("SELECT * FROM products WHERE id="+id, (resultSet, rowNum) -> new Products(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getFloat("price"),
+                resultSet.getString("description")
+        ));
+
         if(productsRepository.existsById(id)){
-            return productsRepository.findById(id);
+            return products;
         }else{
             return "Product does not exists in the database.";
         }

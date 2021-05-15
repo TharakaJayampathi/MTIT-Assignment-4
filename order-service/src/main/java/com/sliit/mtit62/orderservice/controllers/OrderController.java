@@ -3,20 +3,38 @@ package com.sliit.mtit62.orderservice.controllers;
 import com.sliit.mtit62.orderservice.models.Orders;
 import com.sliit.mtit62.orderservice.persistence.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/orders",produces = "application/json")
 public class OrderController {
 
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
     private OrdersRepository ordersRepository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/getOrderByUserId/{id}")
     public @ResponseBody
-    Iterable<Orders> get(){
-        return ordersRepository.findAll();
+    Object getOrderByUserId(@PathVariable Integer id){
+        List<Orders> orders = jdbcTemplate.query("SELECT * FROM orders WHERE user_id="+id, (resultSet, rowNum) -> new Orders(
+                resultSet.getInt("id"),
+                resultSet.getInt("product_id"),
+                resultSet.getInt("user_id"),
+                resultSet.getInt("quantity"),
+                resultSet.getFloat("total_price")
+        ));
+        if(orders.isEmpty()){
+            return "No orders from user id: "+id;
+        }else {
+            return orders;
+        }
+
     }
 
     @Transactional
@@ -52,7 +70,7 @@ public class OrderController {
         if (ordersRepository.existsById(Orders.getId())) {
             try {
                 ordersRepository.save(Orders);
-                return Orders.getName() + " updated successfully";
+                return Orders.getId() + " updated successfully";
             } catch (Exception e) {
                 throw e;
             }
