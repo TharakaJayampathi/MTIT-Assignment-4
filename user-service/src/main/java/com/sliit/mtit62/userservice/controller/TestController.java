@@ -5,14 +5,12 @@ import com.sliit.mtit62.userservice.repository.UserRepository;
 import com.sliit.mtit62.userservice.security.jwt.JwtUtils;
 import com.sliit.mtit62.userservice.security.services.UserDetailsServiceImpl;
 import com.sliit.mtit62.userservice.services.UserServiceImpl;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -65,15 +63,30 @@ public class TestController {
     //Get Product by ID
     @GetMapping("/getProduct/{id}")
     @PreAuthorize("hasRole('USER')")
-    public @ResponseBody HttpEntity<String> get(@PathVariable Integer id, HttpServletRequest request){
+    public @ResponseBody
+    HttpEntity<String> get(@PathVariable Integer id, HttpServletRequest request){
         String jwt = parseJwt(request);
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-        return userService.getProduct(user.getId());
+        return userService.getProduct(id);
+        //return user.getId();
     }
 
+    //Get Orders by ID
+    @GetMapping("/getOrdersByUserId")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    HttpEntity<String> getOrders(@PathVariable Integer id, HttpServletRequest request){
+        String jwt = parseJwt(request);
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
+
+        return userService.getOrdersByUsersId(user.getId().intValue());
+       // return user.getId();
+    }
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

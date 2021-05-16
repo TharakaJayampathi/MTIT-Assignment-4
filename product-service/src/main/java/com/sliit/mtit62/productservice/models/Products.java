@@ -58,6 +58,11 @@ public class Products {
         Description = description;
     }
 
-
-
+    @Override
+    public String toString() {
+        return  "Product Id = " + this.Id + ", " +
+                "product Name = " + this.Name + ", " +
+                "Price = " + this.Price + ", " +
+                "Description = " + this.Description;
+    }
 }

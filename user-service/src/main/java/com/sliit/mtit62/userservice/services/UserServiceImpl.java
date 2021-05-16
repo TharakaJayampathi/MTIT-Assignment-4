@@ -15,6 +15,7 @@ public class UserServiceImpl {
     @Autowired
     private RestTemplate restTemplate;
 
+    //Product Service
     public ResponseEntity<String> createProduct(UserRequest userRequest){
 
         var productCreationRequest = new ProductCreationRequest();
@@ -55,10 +56,11 @@ public class UserServiceImpl {
         return "Product Deleted, Product Id: " + id;
     }
 
+    //Order Service
     public HttpEntity<String> getOrdersByUsersId(Integer id){
         Map<String, Integer> params = new HashMap<>();
         params.put("id", id);
-        ResponseEntity<String> productCreationResponse = restTemplate.getForEntity("http://localhost:8081/api/products/{id}", String.class, params);
+        ResponseEntity<String> productCreationResponse = restTemplate.getForEntity("http://localhost:8183/api/orders/getOrderByUserId/{id}", String.class, params);
         return productCreationResponse;
     }
 

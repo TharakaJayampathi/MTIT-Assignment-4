@@ -15,16 +15,19 @@ public class Orders {
     private Integer ProductId;
     private Integer UserId;
     private Integer Quantity;
-    private Float TotalPrice;
 
     public Orders(){}
 
-    public Orders(Integer id, Integer productId, Integer userId, Integer quantity, Float totalPrice) {
+    public Orders(Integer id, Integer productId, Integer userId, Integer quantity) {
         Id = id;
         ProductId = productId;
         UserId = userId;
         Quantity = quantity;
-        TotalPrice = totalPrice;
+
+    }
+
+    public Orders(Integer productId) {
+        ProductId = productId;
     }
 
     public Integer getId() {
@@ -59,17 +62,12 @@ public class Orders {
         Quantity = quantity;
     }
 
-    public Float getTotalPrice() {
-        return TotalPrice;
-    }
-
-    public void setTotalPrice(Float totalPrice) {
-        TotalPrice = totalPrice;
-    }
-
     @Override
     public String toString() {
-        return "id = " + this.UserId;
+        return  "Order Id = " + this.UserId + ", " +
+                "product Id = " + this.ProductId + ", " +
+                "user Id = " + this.UserId + ", " +
+                "Quantity = " + this.Quantity;
     }
 
 }

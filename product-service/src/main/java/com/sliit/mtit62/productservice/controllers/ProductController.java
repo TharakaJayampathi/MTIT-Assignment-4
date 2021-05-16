@@ -43,7 +43,7 @@ public class ProductController {
         ));
 
         if(productsRepository.existsById(id)){
-            return products;
+            return products.toString();
         }else{
             return "Product does not exists in the database.";
         }
