@@ -91,6 +91,8 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 ```
 ## Other Services Resources Configuration
 
+Open `src/main/resources/application.properties`
+
 - For Product Service
 ```
 server.port=8081
