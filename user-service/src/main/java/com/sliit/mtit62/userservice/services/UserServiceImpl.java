@@ -65,4 +65,41 @@ public class UserServiceImpl {
     }
 
 
+    public ResponseEntity<String> createOrder(OrderRequest orderRequest1,Integer userId){
+
+        var orderRequest = new OrderRequest();
+        orderRequest.setUserId(userId);
+        orderRequest.setProductId(orderRequest1.getProductId());
+        orderRequest.setQuantity(orderRequest1.getQuantity());
+        ResponseEntity<String> orderCreationResponse = restTemplate.postForEntity("http://localhost:8183/api/orders/",orderRequest, String.class);
+        return orderCreationResponse;
+    }
+
+    public String deleteOrder(Integer id){
+        Map<String, Integer> params = new HashMap<>();
+        params.put("id", id);
+        restTemplate.delete("http://localhost:8183/api/orders/{id}", params);
+        return "Product Deleted, Product Id: " + id;
+    }
+
+    public ResponseEntity<String> updateOrder(OrderRequest orderRequest1,Integer userId){
+
+        var orderRequest = new OrderRequest();
+        orderRequest.setUserId(userId);
+        orderRequest.setProductId(orderRequest1.getProductId());
+        orderRequest.setQuantity(orderRequest1.getQuantity());
+        orderRequest.setId(orderRequest1.getId());
+        ResponseEntity<String> orderCreationResponse = restTemplate.postForEntity("http://localhost:8183/api/orders/updateOrder",orderRequest, String.class);
+        return orderCreationResponse;
+    }
+
+    public HttpEntity<String> getOrder(Integer id){
+        Map<String, Integer> params = new HashMap<>();
+        params.put("id", id);
+        ResponseEntity<String> getOrder = restTemplate.getForEntity("http://localhost:8183/api/orders/{id}", String.class, params);
+        return getOrder;
+    }
+
+
+
 }

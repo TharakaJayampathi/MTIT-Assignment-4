@@ -80,7 +80,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping(value = "/")
+    @PostMapping(value = "/updateOrder")
     public String update(@RequestBody Orders Orders) {
         if (ordersRepository.existsById(Orders.getId())) {
             try {

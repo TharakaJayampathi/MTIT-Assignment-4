@@ -1,4 +1,5 @@
 package com.sliit.mtit62.userservice.controller;
+import com.sliit.mtit62.userservice.dto.OrderRequest;
 import com.sliit.mtit62.userservice.dto.UserRequest;
 import com.sliit.mtit62.userservice.models.User;
 import com.sliit.mtit62.userservice.repository.UserRepository;
@@ -34,6 +35,15 @@ public class TestController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    //Get current logged user's Id
+    public Integer getUserId(HttpServletRequest request){
+        String jwt = parseJwt(request);
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+        return user.getId().intValue();
+    }
+
     //Add Products
     @PostMapping(value = "/addProducts")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -56,7 +66,7 @@ public class TestController {
     //Get All Products
     @GetMapping("/getAllProducts")
     @PreAuthorize("hasRole('USER')")
-    public @ResponseBody HttpEntity<String> get(){
+    public @ResponseBody HttpEntity<String> getAllProducts(){
         return userService.getAllProducts();
     }
 
@@ -64,46 +74,46 @@ public class TestController {
     @GetMapping("/getProduct/{id}")
     @PreAuthorize("hasRole('USER')")
     public @ResponseBody
-    HttpEntity<String> get(@PathVariable Integer id, HttpServletRequest request){
-        String jwt = parseJwt(request);
-        String username = jwtUtils.getUserNameFromJwtToken(jwt);
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+    HttpEntity<String> getProductById(@PathVariable Integer id){
         return userService.getProduct(id);
-        //return user.getId();
     }
 
-    //Get Orders by ID
+    //Get Orders by User ID
     @GetMapping("/getOrdersByUserId")
     @PreAuthorize("hasRole('USER')")
     public @ResponseBody
-    HttpEntity<String> getOrders(@PathVariable Integer id, HttpServletRequest request){
-        String jwt = parseJwt(request);
-        String username = jwtUtils.getUserNameFromJwtToken(jwt);
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
-
-        return userService.getOrdersByUsersId(user.getId().intValue());
-       // return user.getId();
+    HttpEntity<String> getOrders(HttpServletRequest request){
+        Integer userId = getUserId(request);
+        return userService.getOrdersByUsersId(userId);
     }
 
-    @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String userAccess() {
-        return "User Content.";
+    //Add Orders
+    @PostMapping(value = "/addOrder")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public @ResponseBody
+    ResponseEntity<String> createOrder(@RequestBody OrderRequest request, HttpServletRequest request1) {
+        Integer userId = getUserId(request1);
+        return userService.createOrder(request,userId);
     }
 
-    @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public String moderatorAccess() {
-        return "Moderator Board.";
+    //Delete Order
+    @DeleteMapping(value = "/deleteOrder/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public  @ResponseBody String deleteOrder(@PathVariable Integer id) { return userService.deleteOrder(id); }
+
+    //Update Order
+    @PostMapping(value = "/updateOrder")
+    public @ResponseBody ResponseEntity<String> updateOrder(@RequestBody OrderRequest request, HttpServletRequest request1){
+        Integer userId = getUserId(request1);
+        return userService.updateOrder(request,userId);
     }
 
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin Board.";
+    //Get Order by ID
+    @GetMapping("/getOrder/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    HttpEntity<String> getOrderById(@PathVariable Integer id){
+        return userService.getOrder(id);
     }
 
     @Bean
