@@ -8,6 +8,91 @@
 * Account Service
 * Delivary Service
 
+## Postman API Requests
+
+### Authentication
+
+Sign Up `http://localhost:8082/api/auth/signup`
+– Request JSON Body:
+```
+{
+	"username":"UserName",
+	"email":"sample@email.com",
+	"password":"password"
+}
+```
+
+Sign In `http://localhost:8082/api/auth/signin`
+– Request JSON Body:
+```
+{
+	"username":"UserName",
+	"email":"sample@email.com",
+	"password":"password"
+}
+```
+
+```diff
++ Note: Copy the accessToken(TokenType:bearer) and use it to Authenticate*
+```
+
+### Products
+
+Add Product `http://localhost:8082/api/addProducts`
+– Request JSON Body:
+```
+{
+	"name": "product 03",
+        "description": "product description 03",
+        "price": 50000.0
+}
+```
+
+
+Update a Product `http://localhost:8082/api/updateProduct`
+– Request JSON Body:
+```
+  {
+        "id":"2",
+        "name": "product 02",
+        "description": "product description 02",
+        "price": 50000.0
+  }
+```
+
+Get All Product `http://localhost:8082/api/getAllProducts`
+
+Get a Product `http://localhost:8082/api/getProduct/{product Id}`
+
+Delete a Product `http://localhost:8082/api/deleteProducts/{product Id}`
+
+### Orders
+
+Add Order `http://localhost:8082/api/addOrder`
+– Request JSON Body:
+```
+{
+        "productId":productId,
+        "quantity": quantity
+}
+```
+
+Update a Order `http://localhost:8082/api/updateOrder`
+– Request JSON Body:
+```
+{
+        "id":orderId,
+        "userId":userId,
+        "productId":productId,
+        "quantity": quantity
+}
+```
+
+Get all orders of logged user `http://localhost:8082/api/getOrdersByUserId`
+
+Get a Order `http://localhost:8082/api/getOrder/{order Id}`
+
+Delete a Order `http://localhost:8082/api/deleteOrder/{order Id}`
 
 ## User Service Configuration
 ### User Registration, User Login and Authorization process.
