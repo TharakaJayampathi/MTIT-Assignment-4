@@ -35,6 +35,8 @@ public class ProductController {
     public @ResponseBody
     Object productReq(@PathVariable Integer id) {
 
+        Products productRequest = new Products();
+
         List<Products> products = jdbcTemplate.query("SELECT * FROM products WHERE id="+id, (resultSet, rowNum) -> new Products(
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
@@ -42,12 +44,16 @@ public class ProductController {
                 resultSet.getString("description")
         ));
 
+        productRequest.setId(products.get(0).getId());
+        productRequest.setName(products.get(0).getName());
+        productRequest.setDescription(products.get(0).getDescription());
+        productRequest.setPrice(products.get(0).getPrice());
+
         if(productsRepository.existsById(id)){
-            return products.toString();
+            return productRequest;
         }else{
             return "Product does not exists in the database.";
         }
-
     }
 
     @DeleteMapping(value = "/{id}")

@@ -15,15 +15,45 @@ public class Orders {
     private Integer ProductId;
     private Integer UserId;
     private Integer Quantity;
+    private Float TotalPrice;
+    private String PaymentStatus;
+    private String DeliveryStatus;
 
     public Orders(){}
 
-    public Orders(Integer id, Integer productId, Integer userId, Integer quantity) {
+    public String getDeliveryStatus() {
+        return DeliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        DeliveryStatus = deliveryStatus;
+    }
+
+    public String getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        PaymentStatus = paymentStatus;
+    }
+
+    public Orders(Integer id, Integer productId, Integer userId, Integer quantity, Float totalPrice, String paymentStatus, String deliveryStatus) {
         Id = id;
         ProductId = productId;
         UserId = userId;
         Quantity = quantity;
+        TotalPrice = totalPrice;
+        PaymentStatus = paymentStatus;
+        DeliveryStatus = deliveryStatus;
 
+    }
+
+    public Float getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(Float totalPrice) {
+        TotalPrice = totalPrice;
     }
 
     public Orders(Integer productId) {
@@ -67,7 +97,8 @@ public class Orders {
         return  "Order Id = " + this.Id + ", " +
                 "product Id = " + this.ProductId + ", " +
                 "user Id = " + this.UserId + ", " +
-                "Quantity = " + this.Quantity;
+                "Quantity = " + this.Quantity +
+                "Total Price = " + this.TotalPrice;
     }
 
 }

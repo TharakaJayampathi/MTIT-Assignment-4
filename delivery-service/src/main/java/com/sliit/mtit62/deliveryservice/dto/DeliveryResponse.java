@@ -1,29 +1,14 @@
-package com.sliit.mtit62.deliveryservice.models;
+package com.sliit.mtit62.deliveryservice.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class DeliveryResponse {
 
-@Entity
-public class Deliveries {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer Id;
     private Integer UserId;
     private Integer OrderId;
     private String DeliveryStatus;
-
-    public Deliveries(int id, int orderId, int userId, String deliveryStatus) {
-        Id = id;
-        UserId = userId;
-        OrderId = orderId;
-        DeliveryStatus = deliveryStatus;
-    }
-
-    public Deliveries() {
-    }
+    private Integer ProductId;
+    private Float TotalPrice;
+    private String PaymentStatus;
 
     public Integer getId() {
         return Id;
@@ -56,5 +41,28 @@ public class Deliveries {
     public void setDeliveryStatus(String deliveryStatus) {
         DeliveryStatus = deliveryStatus;
     }
-}
 
+    public Integer getProductId() {
+        return ProductId;
+    }
+
+    public void setProductId(Integer productId) {
+        ProductId = productId;
+    }
+
+    public Float getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(Float totalPrice) {
+        TotalPrice = totalPrice;
+    }
+
+    public String getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        PaymentStatus = paymentStatus;
+    }
+}

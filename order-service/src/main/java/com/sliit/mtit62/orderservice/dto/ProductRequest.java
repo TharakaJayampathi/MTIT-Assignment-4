@@ -1,17 +1,18 @@
 package com.sliit.mtit62.orderservice.dto;
 
 public class ProductRequest {
+
     private Integer Id;
     private String Name;
-    private Float Price;
     private String Description;
+    private Float Price;
 
     public Integer getId() {
         return Id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.Id = id;
     }
 
     public String getName() {
@@ -19,7 +20,7 @@ public class ProductRequest {
     }
 
     public void setName(String name) {
-        Name = name;
+        this.Name = name;
     }
 
     public Float getPrice() {
@@ -27,7 +28,7 @@ public class ProductRequest {
     }
 
     public void setPrice(Float price) {
-        Price = price;
+        this.Price = price;
     }
 
     public String getDescription() {
@@ -35,6 +36,6 @@ public class ProductRequest {
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.Description = description;
     }
 }

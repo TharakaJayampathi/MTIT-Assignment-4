@@ -1,6 +1,7 @@
-package com.sliit.mtit62.userservice.dto;
+package com.sliit.mtit62.deliveryservice.dto;
 
 public class OrderRequest {
+
     private Integer Id;
     private Integer ProductId;
     private Integer UserId;
@@ -8,15 +9,6 @@ public class OrderRequest {
     private Float TotalPrice;
     private String PaymentStatus;
     private String DeliveryStatus;
-    private Integer OrderId;
-
-    public Integer getOrderId() {
-        return OrderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        OrderId = orderId;
-    }
 
     public String getDeliveryStatus() {
         return DeliveryStatus;
@@ -24,14 +16,6 @@ public class OrderRequest {
 
     public void setDeliveryStatus(String deliveryStatus) {
         DeliveryStatus = deliveryStatus;
-    }
-
-    public String getPaymentStatus() {
-        return PaymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        PaymentStatus = paymentStatus;
     }
 
     public Integer getId() {
@@ -72,5 +56,13 @@ public class OrderRequest {
 
     public void setTotalPrice(Float totalPrice) {
         TotalPrice = totalPrice;
+    }
+
+    public String getPaymentStatus() {
+        return PaymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        PaymentStatus = paymentStatus;
     }
 }

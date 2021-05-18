@@ -1,4 +1,5 @@
 package com.sliit.mtit62.userservice.controller;
+import com.sliit.mtit62.userservice.dto.AccountRequest;
 import com.sliit.mtit62.userservice.dto.OrderRequest;
 import com.sliit.mtit62.userservice.dto.UserRequest;
 import com.sliit.mtit62.userservice.models.User;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api", produces = "application/json")
@@ -43,6 +46,10 @@ public class TestController {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
         return user.getId().intValue();
     }
+
+    /*
+    *Product Service
+    */
 
     //Add Products
     @PostMapping(value = "/addProducts")
@@ -77,6 +84,10 @@ public class TestController {
     HttpEntity<String> getProductById(@PathVariable Integer id){
         return userService.getProduct(id);
     }
+
+    /*
+     *Order Service
+     */
 
     //Get Orders by User ID
     @GetMapping("/getOrdersByUserId")
@@ -116,6 +127,65 @@ public class TestController {
         return userService.getOrder(id);
     }
 
+    //Do a payment
+    @PostMapping("/payment")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    ResponseEntity<String> createPayment(@RequestBody AccountRequest accountRequest){
+
+        return userService.createPayment(accountRequest);
+    }
+
+    //Get Payment history by user
+    @GetMapping("/getPaymentHistory")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    List<Object> getPaymentHistory(HttpServletRequest request){
+        Integer userId = getUserId(request);
+        HttpEntity<List> userIds = userService.getOrderIdByUserId(userId);
+
+        List<Object> paymentHistory = new ArrayList<>();
+
+        for(Object id : userIds.getBody())
+        {
+            paymentHistory.add(userService.getPaymentsByOrderId((Integer) id).getBody());
+        }
+
+        return paymentHistory;
+    }
+
+    //Get paid Not Delivered Orders
+    @GetMapping("/getNotDeliveredOrders")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    HttpEntity<String> getNotDeliveredOrders(){
+        return userService.getPaidNotDeliveredOrders();
+    }
+
+    //Assign Paid Orders To delivery Persons
+    @PostMapping("/assignOrderToDeliveryPerson")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    ResponseEntity<String> assignOrdersToDeliveryPerson(@RequestBody OrderRequest orderRequest){
+        return userService.assignOrdersToDeliveryPerson(orderRequest);
+    }
+
+    @PostMapping("/updateOrderStatus")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    ResponseEntity<String> updateOrderStatus(@RequestBody OrderRequest orderRequest){
+        return userService.updateOrderStatus(orderRequest);
+    }
+
+    //Get assigned orders of logged delivery person
+    @GetMapping("/getMyAssignedOrders")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    HttpEntity<String> getAssignedOrders(HttpServletRequest request){
+        Integer userId = getUserId(request);
+        return userService.getAssignedOrders(userId);
+    }
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
@@ -127,7 +197,6 @@ public class TestController {
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
         }
-
         return null;
     }
 }
