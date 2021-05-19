@@ -93,7 +93,7 @@ public class UserServiceImpl {
         Map<String, Integer> params = new HashMap<>();
         params.put("id", id);
         restTemplate.delete("http://localhost:8183/api/orders/{id}", params);
-        return "Product Deleted, Product Id: " + id;
+        return "Order Deleted, Order Id: " + id;
     }
 
     //Update a Order
