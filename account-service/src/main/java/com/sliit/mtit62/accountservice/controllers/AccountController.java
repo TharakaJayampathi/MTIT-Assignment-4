@@ -38,7 +38,11 @@ public class AccountController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public @ResponseBody
     Object accountReq(@RequestBody Accounts accounts) {
+
+        // call to order service
         HttpEntity<OrderRequest> currentOrder = accountService.getOrder(accounts.getOrderId());
+
+        // Imp payment validation logic
         if(accounts.getAmount() < currentOrder.getBody().getTotalPrice()){
             return "Payment not enough. Order price: "+ currentOrder.getBody().getTotalPrice();
         }
@@ -49,7 +53,9 @@ public class AccountController {
             return "You already paid";
         }
 
+        // got order service and update payment status
         accountService.updateOrder(currentOrder.getBody(),currentOrder.getBody().getUserId());
+
         accountsRepository.save(accounts);
         return "Payment Successful. You paid "+ accounts.getAmount() + ". Order Id:" + accounts.getOrderId();
     }

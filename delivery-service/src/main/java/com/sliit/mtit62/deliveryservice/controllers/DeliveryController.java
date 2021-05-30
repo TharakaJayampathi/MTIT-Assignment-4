@@ -38,6 +38,9 @@ public class DeliveryController {
     @RequestMapping(value = "/assignOrderToDeliveryPerson", method = RequestMethod.POST)
     public @ResponseBody
     String assignOrderToDeliveryPerson(@RequestBody Deliveries deliveries) {
+
+        // connect with order service
+
         Deliveries deliveries1 = new Deliveries();
         deliveries1.setUserId(deliveries.getUserId());
         deliveries1.setOrderId(deliveries.getOrderId());
@@ -57,6 +60,9 @@ public class DeliveryController {
         ));
 
         List<Object> DeliveryResponse = new ArrayList<>();
+
+
+               // connect with order service
 
         for(Deliveries delivery : deliveries){
             DeliveryResponse deliveryResponse = new DeliveryResponse();

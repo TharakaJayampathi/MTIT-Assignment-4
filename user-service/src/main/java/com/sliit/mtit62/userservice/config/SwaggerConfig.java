@@ -45,11 +45,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "My REST API",
-                "Some custom description of API.",
+                "MTIT Assignment 04",
+                "description of API.",
                 "1.0",
                 "Terms of service",
-                new Contact("Sallo Szrajbman", "www.baeldung.com", "salloszraj@gmail.com"),
+                new Contact("Akalanka", "www.ag.nayanajith.com", "ag.nayanajith@gmail.com"),
                 "License of API",
                 "API license URL",
                 Collections.emptyList());
