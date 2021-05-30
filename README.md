@@ -110,6 +110,7 @@ Delete a Order `http://localhost:8082/api/deleteOrder/{order Id}`
 Open `src/main/resources/application.properties`
 
 - For MySQL
+`user-service/src/main/resource/application.properties`
 ```
 spring.datasource.url= jdbc:mysql://localhost:3306/testdb?useSSL=false
 spring.datasource.username= root
